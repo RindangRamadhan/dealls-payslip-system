@@ -11,11 +11,11 @@
 ### Running the Application
 
 ```bash
-# Start services with Docker
-make compose-up
-
 # Run application with database migrations
 make run
+
+# Start services with Docker
+make compose-up
 ```
 
 ### Service Endpoints

@@ -15,7 +15,6 @@ tool (
 )
 
 require (
-	github.com/Conight/go-googletrans v0.2.4
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/ansrivas/fiberprometheus/v2 v2.11.0
 	github.com/caarlos0/env/v11 v11.3.1
@@ -29,8 +28,9 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/swag v1.16.4
-	go.uber.org/mock v0.5.2
 )
+
+require go.uber.org/mock v0.5.2 // indirect
 
 require (
 	4d63.com/gocheckcompilerdirectives v1.3.0 // indirect
