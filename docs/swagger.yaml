@@ -1,0 +1,637 @@
+basePath: /v1
+definitions:
+  entity.Attendance:
+    properties:
+      check_in:
+        type: string
+      check_out:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      date:
+        type: string
+      id:
+        type: string
+      ip_address:
+        type: string
+      period_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.AttendancePeriod:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      end_date:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      start_date:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  entity.Overtime:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      date:
+        type: string
+      hours:
+        type: number
+      id:
+        type: string
+      ip_address:
+        type: string
+      period_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.Payroll:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      employee_count:
+        type: integer
+      id:
+        type: string
+      period_id:
+        type: string
+      processed_at:
+        type: string
+      total_amount:
+        type: number
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  entity.Payslip:
+    properties:
+      attendance_days:
+        type: integer
+      attendance_salary:
+        type: number
+      base_salary:
+        type: number
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      overtime_hours:
+        type: number
+      overtime_salary:
+        type: number
+      payroll_id:
+        type: string
+      period_id:
+        type: string
+      reimbursement_total:
+        type: number
+      total_pay:
+        type: number
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      user_id:
+        type: string
+      working_days:
+        type: integer
+    type: object
+  entity.Reimbursement:
+    properties:
+      amount:
+        type: number
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      ip_address:
+        type: string
+      period_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      user_id:
+        type: string
+    type: object
+  entity.User:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      is_admin:
+        type: boolean
+      salary:
+        type: number
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      username:
+        type: string
+    type: object
+  request.AttendancePeriodRequest:
+    properties:
+      end_date:
+        example: "2025-01-31"
+        type: string
+      start_date:
+        example: "2025-01-01"
+        type: string
+    required:
+    - end_date
+    - start_date
+    type: object
+  request.AttendanceRequest:
+    properties:
+      check_in:
+        example: "08:00:00"
+        type: string
+      check_out:
+        example: "17:00:00"
+        type: string
+      date:
+        example: "2025-06-20"
+        type: string
+      type:
+        enum:
+        - check_in
+        - check_out
+        example: check_in
+        type: string
+    required:
+    - date
+    - type
+    type: object
+  request.LoginRequest:
+    properties:
+      password:
+        example: admin123
+        type: string
+      username:
+        example: admin
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  request.OvertimeRequest:
+    properties:
+      date:
+        example: "2025-06-20"
+        type: string
+      hours:
+        example: 1
+        maximum: 3
+        minimum: 0.5
+        type: number
+    required:
+    - date
+    - hours
+    type: object
+  request.PayrollRequest:
+    properties:
+      period_id:
+        example: 1e6c4313-3148-4fc8-a6cd-b6cd4674e041
+        type: string
+    required:
+    - period_id
+    type: object
+  request.ReimbursementRequest:
+    properties:
+      amount:
+        minimum: 0
+        type: number
+      description:
+        type: string
+    required:
+    - amount
+    - description
+    type: object
+  response.EmployeePay:
+    properties:
+      total_pay:
+        type: number
+      user_id:
+        type: string
+      username:
+        type: string
+    type: object
+  response.LoginResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/entity.User'
+    type: object
+  response.PayrollSummaryResponse:
+    properties:
+      employee_pays:
+        items:
+          $ref: '#/definitions/response.EmployeePay'
+        type: array
+      payroll:
+        $ref: '#/definitions/entity.Payroll'
+      total_amount:
+        type: number
+    type: object
+  response.PayslipResponse:
+    properties:
+      attendances:
+        items:
+          $ref: '#/definitions/entity.Attendance'
+        type: array
+      overtimes:
+        items:
+          $ref: '#/definitions/entity.Overtime'
+        type: array
+      payslip:
+        $ref: '#/definitions/entity.Payslip'
+      reimbursements:
+        items:
+          $ref: '#/definitions/entity.Reimbursement'
+        type: array
+    type: object
+  utils.BodyFailure:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  utils.BodySuccess:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for the Dealls Payslip System, featuring attendance tracking, overtime,
+    reimbursement, and payroll summary.
+  title: Dealls Payslip System API
+  version: "1.0"
+paths:
+  /admin/attendance-periods:
+    post:
+      consumes:
+      - application/json
+      description: Create a new attendance period by providing start and end dates.
+      operationId: create-attendance-period
+      parameters:
+      - description: Attendance Period Payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AttendancePeriodRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.BodySuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.AttendancePeriod'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Create Attendance Period
+      tags:
+      - Admin
+  /admin/payrolls:
+    post:
+      consumes:
+      - application/json
+      description: Generate payroll for a specific attendance period. Requires authentication.
+      operationId: process-payroll
+      parameters:
+      - description: Payroll request payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/request.PayrollRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.BodySuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Payroll'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Process Payroll
+      tags:
+      - Admin
+  /admin/payrolls/summary:
+    get:
+      consumes:
+      - application/json
+      description: Get payroll summary for a given period (via query param)
+      operationId: get-payroll-summary
+      parameters:
+      - description: Attendance Period ID (UUID)
+        in: query
+        name: period_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.BodySuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PayrollSummaryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Get Payroll Summary
+      tags:
+      - Admin
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate User
+      operationId: login
+      parameters:
+      - description: Login Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.BodySuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.LoginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      summary: User Login
+      tags:
+      - Auth
+  /employee/attendances:
+    post:
+      consumes:
+      - application/json
+      description: Submit attendance (check-in and check-out) for current active period.
+      operationId: submit-attendance
+      parameters:
+      - description: Attendance payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/request.AttendanceRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.BodySuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Submit Attendance
+      tags:
+      - Employee
+  /employee/overtimes:
+    post:
+      consumes:
+      - application/json
+      description: Submit overtime request (between 0.5 and 3 hours) for current active
+        period.
+      operationId: submit-overtime
+      parameters:
+      - description: Overtime payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/request.OvertimeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.BodySuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Submit Overtime
+      tags:
+      - Employee
+  /employee/payslips:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve payslip for the authenticated employee.
+      operationId: get-payslip
+      parameters:
+      - description: Attendance Period ID (UUID)
+        in: query
+        name: period_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: payslip retrieved successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.BodySuccess'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PayslipResponse'
+              type: object
+        "400":
+          description: invalid input or bad request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "404":
+          description: payslip not found
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Get Payslip
+      tags:
+      - Employee
+  /employee/reimbursements:
+    post:
+      consumes:
+      - application/json
+      description: Submit reimbursement request for the current active attendance
+        period.
+      operationId: submit-reimbursement
+      parameters:
+      - description: Reimbursement payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/request.ReimbursementRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.BodySuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.BodyFailure'
+      security:
+      - JWTBearer: []
+      summary: Submit Reimbursement
+      tags:
+      - Employee
+securityDefinitions:
+  JWTBearer:
+    description: Provide your JWT token prefixed with "Bearer", e.g., "Bearer <your_token>"
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
