@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - Docker and Docker Compose
-- Go 1.19+
+- Go 1.24
 - Make
 
 ### Running the Application
@@ -40,14 +40,6 @@ The system provides RESTful endpoints accessible at `http://127.0.0.1:8080/v1/`
 curl -X GET http://127.0.0.1:8080/v1/payslips \
   -H "Content-Type: application/json"
 ```
-
-### gRPC API
-
-gRPC services are available with protocol buffer definitions in `docs/proto/`
-
-### Message Queue (AMQP)
-
-RabbitMQ-based RPC pattern for asynchronous operations
 
 ## Software Architecture
 
